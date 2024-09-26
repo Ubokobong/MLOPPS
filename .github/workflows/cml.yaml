@@ -13,10 +13,22 @@ jobs:
         run: |
           pip install -r requirement.txt
           python NN.py
-      - name: List Files After Training
+      - name: Create Report
         run: |
-          echo "Files after training:"
-          ls -la
+          echo "## Model Metrics" > report.md
+          cat model_performance.txt >> report.md
+          echo "Report content:"
+          cat report.md
+      - name: Install CML
+        run: |
+          npm install -g @dvcorg/cml
+      
+      - name: Verify cml-send-comment
+        run: |
+          which cml-send-comment || echo "cml-send-comment not found. Ensure it's installed."
 
+      - name: Send Comment
+        run: |
+          cml-send-comment report.md
 
 
