@@ -38,6 +38,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Ensure GITHUB_TOKEN is passed
         run: |
+          echo "![MAE Plot](./mae_plot.png)" >> README.md
           cml comment create README.md --token ${{ secrets.GITHUB_TOKEN }}
-          cml-publish mae_plot.png --md >> README.md --token ${{ secrets.GITHUB_TOKEN }}
+
 
