@@ -13,20 +13,11 @@ jobs:
         run: |
           pip install -r requirement.txt
           python NN.py
+      - name: Check if model_performance.txt exists
+        run: |
+          if [ ! -f model_performance.txt ]; then
+            echo "model_performance.txt not found. Exiting."
+            exit 1
+          fi
 
-      - name: Check Current Directory
-        run: |
-          echo "Current Directory:"
-          pwd
-          echo "Listing Files:"
-          ls -la  # This will list all files and directories, including hidden ones
-      
-      - name: Create Report
-        run: |
-          echo "## Model Metrics" > report.md
-          cat model_performance.txt >> report.md
-
-      - name: Send Comment
-        run: |
-          cml-send-comment report.md
 
