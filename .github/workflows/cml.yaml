@@ -31,6 +31,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the GitHub token to authenticate
         run: |
-          cml-send-comment report.md
+          cml comment create report.md
 
 
