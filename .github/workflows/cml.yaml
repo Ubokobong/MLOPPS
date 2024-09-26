@@ -1,28 +1,31 @@
 name: MLOPPS
 on: [push]
 jobs:
-  run:
+  train-and-report:
     runs-on: ubuntu-latest
-    container: docker://dvcorg/cml-py3:latest
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
-      - uses: actions/checkout@v2
-      - name: 'Train and Report'
+      - uses: actions/checkout@v3
+      - name: Train and Report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TB_CREDENTIALS: ${{ secrets.TB_CREDENTIALS }}
         run: |
           pip install -r requirement.txt
           python NN.py
       - name: Create Report
         run: |
-          echo "## Model Metrics" > report.md
-          cat model_performance.txt >> report.md
+          echo "## Model Metrics" > README.md
+          cat model_performance.txt >> README.md
           echo "Report content:"
-          cat report.md
+          cat README.md
       - name: Install CML
         run: |
           npm install -g @dvcorg/cml
       
+      - name: Verify cml-send-comment
+        run: |
+          which cml-send-comment || echo "cml-send-comment not found. Ensure it's installed."
       - name: Send Comment
         run: |
           cml comment create README.md
-
