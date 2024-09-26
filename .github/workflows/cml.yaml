@@ -28,6 +28,8 @@ jobs:
           which cml-send-comment || echo "cml-send-comment not found. Ensure it's installed."
 
       - name: Send Comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass the GitHub token to authenticate
         run: |
           cml-send-comment report.md
 
