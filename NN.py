@@ -34,3 +34,6 @@ history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split
 # Step 5: Evaluate the model on the test set
 loss, mae = model.evaluate(X_test, y_test)
 print(f"Test Mean Absolute Error: {mae}")
+
+with open('model_performance.txt', 'w') as f:
+    f.write(f"Test Mean Absolute Error: {mae}\n")
