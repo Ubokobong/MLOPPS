@@ -1,5 +1,10 @@
 name: MLOPPS
 on: [push]
+
+permissions:
+  issues: write
+  pull-requests: write
+
 jobs:
   train-and-report:
     runs-on: ubuntu-latest
@@ -8,8 +13,32 @@ jobs:
       - uses: actions/checkout@v3
       - name: Train and Report
         env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # Use GITHUB_TOKEN explicitly here
           TB_CREDENTIALS: ${{ secrets.TB_CREDENTIALS }}
         run: |
           pip install -r requirement.txt
-          python NN.py  
+          python NN.py
+          
+      - name: Create Report
+        run: |
+          echo "## Model Metrics" > README.md
+          cat model_performance.txt >> README.md
+          echo "\n## Model Performance" >> README.md  # Embed the PNG file in the report
+          echo "Report content:"
+
+      - name: Install CML
+        run: |
+          npm install -g @dvcorg/cml
+      
+      - name: Verify cml-send-comment
+        run: |
+          which cml-send-comment || echo "cml-send-comment not found. Ensure it's installed."
+          
+      - name: Send Comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Ensure GITHUB_TOKEN is passed
+        run: |
+          echo "![MAE Plot](./mae_plot.png)" >> README.md
+          cml comment create README.md --token ${{ secrets.GITHUB_TOKEN }}
+
+
