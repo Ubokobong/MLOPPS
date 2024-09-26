@@ -14,7 +14,10 @@ jobs:
           pip install -r requirement.txt
           python NN.py
 
-          echo "## Model Metrics" > report.md
-          cat model_performance.txt >> report.md
+      - name: Check Current Directory
+        run: |
+          echo "Current Directory:"
+          pwd
+          echo "Listing Files:"
+          ls -la  # This will list all files and directories, including hidden ones
 
-          cml-send-comment report.md
