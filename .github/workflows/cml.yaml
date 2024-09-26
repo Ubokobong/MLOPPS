@@ -23,9 +23,10 @@ jobs:
         run: |
           echo "## Model Metrics" > README.md
           cat model_performance.txt >> README.md
-          echo "![MAE Plot](mae_plot.png)" >> README.md  # Embed the PNG file in the report
+          echo "\n## Model Performance" >> README.md  # Embed the PNG file in the report
           echo "Report content:"
-          cat README.md
+
+          cml-publish mae_plot.png --md >> README.md
 
       - name: Install CML
         run: |
