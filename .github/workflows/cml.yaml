@@ -15,6 +15,6 @@ jobs:
           python NN.py
 
           echo "##Model Metrics" > report.md
-          cat metrics.txt >> report.md
+          cat model_performance.txt >> report.md
 
           cml-send-comment report.md
