@@ -26,8 +26,6 @@ jobs:
           echo "\n## Model Performance" >> README.md  # Embed the PNG file in the report
           echo "Report content:"
 
-          cml-publish mae_plot.png --md >> README.md
-
       - name: Install CML
         run: |
           npm install -g @dvcorg/cml
@@ -41,3 +39,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Ensure GITHUB_TOKEN is passed
         run: |
           cml comment create README.md --token ${{ secrets.GITHUB_TOKEN }}
+          cml-publish mae_plot.png --md >> README.md --token ${{ secrets.GITHUB_TOKEN }}
+
