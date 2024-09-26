@@ -20,4 +20,13 @@ jobs:
           pwd
           echo "Listing Files:"
           ls -la  # This will list all files and directories, including hidden ones
+      
+      - name: Create Report
+        run: |
+          echo "## Model Metrics" > report.md
+          cat model_performance.txt >> report.md
+
+      - name: Send Comment
+        run: |
+          cml-send-comment report.md
 
