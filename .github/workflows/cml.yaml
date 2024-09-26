@@ -12,4 +12,9 @@ jobs:
           TB_CREDENTIALS: ${{ secrets.TB_CREDENTIALS }}
         run: |
           pip install -r requirement.txt
-          python NN.py  
+          python NN.py
+
+          echo "##Model Metrics" > report.md
+          cat metrics.txt >> report.md
+
+          cml-send-comment report.md
