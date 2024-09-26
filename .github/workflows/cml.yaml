@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Train and Report
         env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_TOKEN: ${{ secrets.TOKEN }}
           TB_CREDENTIALS: ${{ secrets.TB_CREDENTIALS }}
         run: |
           pip install -r requirement.txt
@@ -23,8 +23,9 @@ jobs:
         run: |
           npm install -g @dvcorg/cml
       
-      - name: Verify cml-send-comment
+      - name: Send Comment
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # Pass the GitHub token to authenticate
         run: |
-          which cml-send-comment || echo "cml-send-comment not found. Ensure it's installed."
-
+          cml comment create report.md
 
